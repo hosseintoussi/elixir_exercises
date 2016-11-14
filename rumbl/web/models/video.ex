@@ -1,3 +1,4 @@
+require IEx;
 defmodule Rumbl.Video do
   use Rumbl.Web, :model
 
@@ -16,7 +17,16 @@ defmodule Rumbl.Video do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:user_id, :url, :title, :description])
+    |> cast(params, [:user_id, :category_id, :url, :title, :description])
     |> validate_required([:url, :title, :description])
   end
+
+  def with_all_assocs(query \\ __MODULE__) do
+    IEx.pry
+    from q in query, preload: [
+      {:user, []},
+      {:category, []}
+    ]
+  end
+
 end
